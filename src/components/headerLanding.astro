@@ -1,28 +1,30 @@
 ---
 import Logo from "../components/logo.astro";
 import Logo2 from "../components/logo2.astro";
+import Logo3 from "../components/logo3.astro";
 import "../styles/global.css";
 ---
 
-<header id="header" class="z-60 fixed top-0 w-full py-6 sm:py-8 px-4 sm:px-8 transition-colors duration-400">
+<header id="header" class="z-60 fixed top-0 w-full py-4 sm:py-8 px-4 sm:px-8 transition-colors duration-400">
     <div class="flex flex-wrap justify-between items-center">
         <!-- relative block aspect-[370/66] h-[44px] sm:h-[50px] lg:h-[56px] xl:h-[66px] -->
         <a href="/" class="relative block aspect-[370/66] h-[44px] xl:h-[66px]">
             <Logo id="logo1" class="absolute inset-0 transition-all duration-400 opacity-100 scale-100" />
             <Logo2 id="logo2" class="absolute inset-0 transition-all duration-400 opacity-0 scale-90" />
+            <Logo3 id="logo3" class="absolute inset-0 transition-all duration-400 opacity-0 scale-90" />
         </a>
 
         <div class="flex items-center lg:order-2">
             <!-- Menú de escritorio -->
             <div class="hidden md:flex items-center lg:order-2 space-x-4">
-                <a class="px-2 text-white hover:text-[#376374] duration-300" href="https://www.instagram.com/winhairtj" target="_blank" aria-label="Instagram">
+                <a class="bg-[#FF8280] rounded-full px-2.5 py-1 text-white hover:text-[#FF8280] hover:bg-[#FFFFFF] duration-300" href="https://www.instagram.com/hairlesstj" target="_blank" aria-label="Instagram">
                     <i class="fab fa-instagram"></i>
                 </a>
-                <a class="px-2 text-white hover:text-[#376374] duration-300" href="https://www.facebook.com/winhairtj" target="_blank" aria-label="Facebook">
+                <a class="bg-[#FF8280] rounded-full px-3 py-1 text-white hover:text-[#FF8280] hover:bg-[#FFFFFF] duration-300" href="https://www.facebook.com/people/Hairless-Laser/61579279574864/" target="_blank" aria-label="Facebook">
                     <i class="fab fa-facebook-f"></i>
                 </a>
-                <a href="#aboutUs" class="button-header ml-4 font-[Poppins] py-3 px-5 text-sm bg-[#376374] text-white rounded-lg cursor-pointer font-semibold text-center shadow-xs transition-all duration-500 hover:bg-[#547785]">
-                    Book an appointment
+                <a href="#aboutUs" class="button-header ml-4 font-[Poppins] py-3 px-5 text-sm bg-[#FF8280] text-white rounded-lg cursor-pointer font-semibold text-center shadow-xs transition-all duration-500 hover:text-[#FF8280] hover:bg-[#FFFFFF]">
+                    Reservar una cita
                 </a>
             </div>
             <button id="btnHeader" data-collapse-toggle="mobile-menu-2" type="button" class="inline-flex items-center p-2 ml-1 text-sm text-white rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 mt-2 sm:mt-0" aria-controls="mobile-menu-2" aria-expanded="false">
@@ -89,6 +91,7 @@ import "../styles/global.css";
   const header = document.querySelector("#header");
   const logo1 = document.querySelector("#logo1");
   const logo2 = document.querySelector("#logo2");
+  const logo3 = document.querySelector("#logo3");
   const btn = document.getElementById("btnHeader");
   const headermobile = document.getElementById("mobilemenu2");
 
@@ -123,7 +126,39 @@ import "../styles/global.css";
 
         header.style.backgroundColor = color || "";
 
-        if (logo === "1") {
+        switch(logo) {
+          case '1':
+            logo1.classList.add("opacity-100", "scale-100");
+            logo1.classList.remove("opacity-0", "scale-90");
+
+            logo2.classList.remove("opacity-100", "scale-100");
+            logo2.classList.add("opacity-0", "scale-90");
+
+            logo3.classList.remove("opacity-100", "scale-100");
+            logo3.classList.add("opacity-0", "scale-90");
+            break;
+          case '2':
+            logo2.classList.add("opacity-100", "scale-100");
+            logo2.classList.remove("opacity-0", "scale-90");
+
+            logo1.classList.remove("opacity-100", "scale-100");
+            logo1.classList.add("opacity-0", "scale-90");
+
+            logo3.classList.remove("opacity-100", "scale-100");
+            logo3.classList.add("opacity-0", "scale-90");
+            break;
+          default:
+            logo3.classList.add("opacity-100", "scale-100");
+            logo3.classList.remove("opacity-0", "scale-90");
+
+            logo1.classList.remove("opacity-100", "scale-100");
+            logo1.classList.add("opacity-0", "scale-90");
+            
+            logo2.classList.remove("opacity-100", "scale-100");
+            logo2.classList.add("opacity-0", "scale-90");
+        }
+
+        /*if (logo === "1") {
           logo1.classList.add("opacity-100", "scale-100");
           logo1.classList.remove("opacity-0", "scale-90");
 
@@ -135,7 +170,7 @@ import "../styles/global.css";
 
           logo1.classList.remove("opacity-100", "scale-100");
           logo1.classList.add("opacity-0", "scale-90");
-        }
+        }*/
       }
     });
   }, observerOptions);

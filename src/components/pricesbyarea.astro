@@ -1,0 +1,323 @@
+---
+import "../styles/global.css";
+---
+<section id="pricesbyzone" data-header-color="transparent" data-header-logo="1" class=" h-screen w-screen relative flex flex-col items-center justify-center px-6 py-8 md:px-12 lg:px-14 xl:px-32 md:py-14 xl:py-24">
+  <div class="flex justify-center items-center lg:items-stretch flex-wrap gap-4 lg:gap-22 2xl:gap-14 text-[#333] py-0 sm:py-8 mt-0 sm:mt-10 md:mt-20">
+    <div class="text-center order-2 lg:order-1">
+        <div class="relative inline-block" id="bodyContainer">
+            <img src="/woman-front.png" id="imgBody" class="w-28 md:w-38 lg:w-44 2xl:w-54 transition-opacity duration-300 ease-in" />
+        </div>
+        <div class="flex justify-center gap-2 sm:gap-4 buttons">
+            <button id="btnFront" class="bg-[#ffe3e7] text-[#ff7e90] md:text-xl py-2 px-4 rounded-2xl cursor-pointer duration-300 active">Frente</button>
+            <button id="btnBack" class="bg-[#ffe3e7] text-[#ff7e90] md:text-xl py-2 px-4 rounded-2xl cursor-pointer duration-300">Atrás</button>
+            <button id="btnFace" class="bg-[#ffe3e7] text-[#ff7e90] md:text-xl py-2 px-4 rounded-2xl cursor-pointer duration-300">Cara</button>
+        </div>
+    </div>
+
+    <div class="info order-1 lg:order-2 w-full lg:w-3/5 2xl:w-2/3 relative">
+        <h2 data-animation="animate__pulse" class="animate__animated text-left text-2xl sm:text-4xl lg:text-5xl xl:text-5xl 2xl:text-6xl font-[Poppins] font-light sm:mb-6 lg:mb-4 xl:mb-6 mt-0 lg:mt-8 text-[#535353] leading-tight">
+            <strong class="text-[#EE7C7E] xl:font-semibold">Precio</strong> <span class="text-[#535353]">por zona</span>
+        </h2>
+        <p data-animation="animate__pulse" class="animate__animated hidden sm:block max-w-2xl font-light text-base sm:text-lg md:text-2xl lg:text-2xl 2xl:text-3xl text-justify text-gray-600 mb-4 sm:mb-6 md:mb-8 lg:mb-4 xl:mb-8 2xl:mb-12">
+            Explora los precios por área directamente sobre la imagen y elige el tratamiento o paquete ideal para ti
+        </p>
+        <p data-animation="animate__pulse" class="animate__animated block sm:hidden max-w-2xl font-light text-base sm:text-lg md:text-2xl lg:text-2xl 2xl:text-3xl text-justify text-gray-600 mb-2 sm:mb-6 md:mb-8 lg:mb-4 xl:mb-8 2xl:mb-12">
+            Toca la imagen, conoce los precios y elige tu tratamiento
+        </p>
+        <div class="w-full max-w-2xl min-w-[200px] mb-4">      
+          <div class="relative">
+            <select id="body" class="w-full bg-[#EFEFEF] placeholder:text-slate-400 text-slate-700 font-semibold text-sm sm:text-lg border border-slate-200 font-[Poppins] rounded pl-4 pr-8 py-3 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow-md appearance-none cursor-pointer">
+            </select>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.6" stroke="currentColor" class="h-4 w-4 sm:h-6 sm:w-6 ml-1 absolute top-3.5 right-2.5 text-slate-700">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
+            </svg>
+          </div>
+        </div>
+        <div id="details" class="absolute lg:grid lg:grid-cols-2 lg:gap-2">
+          
+        </div>
+    </div>
+  </div>
+</section>
+<script>
+import { extractDirectives } from "astro/runtime/server/hydration.js";
+import { sequence } from "astro:middleware";
+
+    const zonasFrente = [
+      { nombre: "Cuello", precio: 650, top: "12%", left: "34%", top768: "14%", left768: "38%", top1024: "14%", left1024: "42%", top1536: "16%", left1536: "44%" },
+      { nombre: "Pecho", precio: 900, top: "22%", left: "22%", top768: "22%", left768: "26%", top1024: "24%", left1024: "30%", top1536: "24%", left1536: "32%" },
+      { nombre: "Axilas", precio: 650, top: "22%", left: "58%", top768: "22%", left768: "62%", top1024: "22%", left1024: "66%", top1536: "22%", left1536: "70%" },
+      { nombre: "Brazos completos", precio: "1,495", top: "36%", left: "66%", top768: "36%", left768: "70%", top1024: "36%", left1024: "70%", top1536: "38%", left1536: "74%" },
+      { nombre: "Manos", precio: 320, top: "48%", left: "0%", top768: "50%", left768: "6%", top1024: "52%", left1024: "10%", top1536: "54%", left1536: "12%" },
+      { nombre: "Abdomen", precio: 900, top: "32%", left: "34%", top768: "34%", left768: "38%", top1024: "36%", left1024: "42%", top1536: "38%", left1536: "44%" },
+      { nombre: "Entrepierna", precio: 900, top: "44%", left: "32%", top768: "46%", left768: "36%", top1024: "48%", left1024: "42%", top1536: "48%", left1536: "44%" },
+      { nombre: "Piernas completas", precio: "1,950", top: "64%", left: "32%", top768: "64%", left768: "36%", top1024: "64%", left1024: "40%", top1536: "66%", left1536: "44%" },
+      { nombre: "Pies", precio: 320, top: "86%", left: "34%", top768: "88%", left768: "38%", top1024: "90%", left1024: "42%", top1536: "92%", left1536: "44%" },
+    ];
+
+    const zonasAtras = [
+      { nombre: "Nuca", precio: 650, top: "10%", left: "28%", top768: "12%", left768: "30%", top1024: "14%", left1024: "36%", top1536: "14%", left1536: "38%" },
+      { nombre: "Espalda", precio: "1,950", top: "20%", left: "30%", top768: "20%", left768: "32%", top1024: "22%", left1024: "34%", top1536: "22%", left1536: "36%" },
+      { nombre: "Coxis", precio: 650, top: "30%", left: "32%", top768: "30%", left768: "34%", top1024: "32%", left1024: "36%", top1536: "32%", left1536: "40%" },
+      { nombre: "Entre glúteos", precio: 650, top: "40%", left: "28%", top768: "40%", left768: "30%", top1024: "42%", left1024: "38%", top1536: "44%", left1536: "42%" },
+      { nombre: "Glúteo", precio: 900, top: "42%", left: "50%", top768: "42%", left768: "52%", top1024: "44%", left1024: "56%", top1536: "44%", left1536: "60%" },
+    ];
+
+    const zonasCara = [
+      { nombre: "Frente", precio: 320, top: "20%", left: "20%", top768: "22%", left768: "22%", top1024: "22%", left1024: "22%", top1536: "22%", left1536: "22%" },
+      { nombre: "Entrecejo", precio: 320, top: "28%", left: "26%", top768: "30%", left768: "28%", top1024: "30%", left1024: "28%", top1536: "30%", left1536: "28%" },
+      { nombre: "Orejas", precio: 320, top: "40%", left: "66%", top768: "42%", left768: "68%", top1024: "42%", left1024: "68%", top1536: "42%", left1536: "68%" },
+      { nombre: "Nariz", precio: 320, top: "42%", left: "24%", top768: "44%", left768: "26%", top1024: "44%", left1024: "26%", top1536: "44%", left1536: "26%" },
+      { nombre: "Mejillas", precio: 320, top: "42%", left: "44%", top768: "42%", left768: "46%", top1024: "44%", left1024: "46%", top1536: "44%", left1536: "46%" },
+      { nombre: "Bigote", precio: 320, top: "48%", left: "32%", top768: "50%", left768: "34%", top1024: "50%", left1024: "34%", top1536: "50%", left1536: "34%" },
+      { nombre: "Mentón", precio: 320, top: "62%", left: "26%", top768: "64%", left768: "26%", top1024: "64%", left1024: "26%", top1536: "64%", left1536: "26%" },
+    ];
+
+
+    const zonasExtra = [
+        { zona: "Pecho", nombre: "Linea entre pecho", precio: 320, },
+        { zona: "Pecho", nombre: "Pezon", precio: 320, },
+        { zona: "Abdomen", nombre: "Linea del abdomen", precio: 320, },
+        { zona: "Abdomen", nombre: "Abdomen completo", precio: "1,365", },
+        { zona: "Entrepierna", nombre: "Linea del bikini", precio: 900, },
+        { zona: "Entrepierna", nombre: "Bikini", precio: "1,950", },
+        { zona: "Entrepierna", nombre: "Monte de venus", precio: 900, },
+    ]
+
+    const zonas = {
+      frente: zonasFrente,
+      atras: zonasAtras,
+      cara: zonasCara,
+    };
+
+    /*const zonasJson = `{"frente": [{"nombre":"Pierna completa","precio":950,"top":"64%","left":"56%"},
+                                {"nombre":"Media pierna","precio":650,"top":"80%","left":"58%"},
+                                {"nombre":"Brazos completos","precio":850,"top":"36%","left": "68%"},
+                                {"nombre":"Axilas","precio":450,"top":"22%","left":"58%"}],
+                     "atras": [{"nombre":"Espalda alta","precio":750,"top":"20%","left":"45%"},
+                                { "nombre":"Espalda baja","precio": 650,"top":"34%","left":"48%"},
+                               {"nombre":"Glúteos","precio":700,"top":"42%","left":"48%"}]}`;
+
+    let zonas = JSON.parse(zonasJson);*/
+
+    let vistaActual = 'frente';
+    const container = document.getElementById('bodyContainer') as HTMLElement;
+    const details = document.getElementById('details') as HTMLElement;
+    const imgBody = document.getElementById('imgBody') as HTMLElement;
+    const btnFront = document.getElementById('btnFront') as HTMLElement;
+    const btnBack = document.getElementById('btnBack') as HTMLElement;
+    const btnFace = document.getElementById('btnFace') as HTMLElement;
+    const select = document.getElementById('body') as HTMLElement;
+
+    // Función para renderizar las zonas
+    function renderZonas() {
+        container.querySelectorAll('.zona').forEach(z => z.remove());
+        
+        const lista = zonas[vistaActual];
+        iterateZonas(lista)
+    }
+
+    function aplicarPosicionResponsive(z, div) {
+      if (window.innerWidth >= 1536) 
+      {
+        div.style.top = z.top1536;
+        div.style.left = z.left1536;
+      }
+      else if (window.innerWidth >= 1024) 
+      {
+        div.style.top = z.top1024;
+        div.style.left = z.left1024;
+      } 
+      else if (window.innerWidth >= 768) 
+      {
+        div.style.top = z.top768;
+        div.style.left = z.left768;
+      } 
+      else 
+      {
+        div.style.top = z.top;
+        div.style.left = z.left;
+      }
+    }
+
+    // Función para iterar y mostrar las zonas
+    function iterateZonas(lista)
+    {
+      lista.forEach(z => {
+          const div = document.createElement('div');
+          div.className = 'zona';
+          
+          aplicarPosicionResponsive(z, div);
+
+          div.innerHTML = '<span class="punto"></span>';
+          div.addEventListener('click', () => {
+              //cargarOpcionesSeleccionado(z);
+              details.innerHTML = `
+                <figure class="flex items-center max-w-xs p-4 py-2 sm:py-4 md:p-6 lg:p-4 mb-2 bg-white border border-gray-300 rounded-sm shadow-xs">
+                    <div class="ml-0 text-gray-500">
+                        <h3 class="text-lg sm:text-xl md:text-2xl lg:text-xl 2xl:text-2xl font-light text-gray-900">${z.nombre}</h3>
+                        <p class="font-light text-md sm:text-lg md:text-xl lg:text-lg 2xl:text-xl font-[Poppins]"><strong class="text-4xl font-semibold text-[#EE7C7E]">$${z.precio}</strong> pesos</p>
+                    </div>
+                </figure>
+              `;
+              zonaExtra(z.nombre);
+          });
+          container.appendChild(div);
+      });
+    }
+
+    // Función para cargar opciones
+    function cargarOpciones(opciones) {
+      // Limpia el select
+      select.innerHTML = "";
+
+      // Agrega opción default
+      const defaultOpt = document.createElement("option");
+      defaultOpt.textContent = "Selecciona una opción";
+      defaultOpt.value = "";
+      select.appendChild(defaultOpt);
+
+      // Agrega nuevas opciones
+      opciones.forEach(op => {
+        const option = document.createElement("option");
+        option.value = op.nombre;
+        option.textContent = op.nombre;
+        select.appendChild(option);
+      });
+
+      // Agrega opción default
+      const defaultOpt2 = document.createElement("option");
+      defaultOpt2.textContent = "Todas las opciones";
+      defaultOpt2.value = "";
+      select.appendChild(defaultOpt2);
+    }
+
+    // Función para cargar opciones
+    function cargarOpcionesSeleccionado(seleccionado) {
+      select.value = seleccionado.nombre; // Selecciona la opción en el select
+
+      // Opcional: dispara el evento change si necesitas detectar el cambio
+      select.dispatchEvent(new Event('change'));
+    }
+
+    function zonaExtra(zonaExtra)
+    {
+      let lista2 = zonasExtra.filter(zone => zone.zona == zonaExtra);
+        if(lista2.length !== 0)
+        {
+          lista2.forEach(list => {
+            let price = 
+            `<figure class="flex items-center max-w-xs p-4 py-2 sm:py-4 md:p-6 lg:p-4 mb-2 bg-white border border-gray-300 rounded-sm shadow-xs">
+                  <div class="ml-0 text-gray-500">
+                      <h3 class="text-lg sm:text-xl md:text-2xl lg:text-xl 2xl:text-2xl font-light text-gray-900">${list.nombre}</h3>
+                      <p class="font-light text-md sm:text-lg md:text-xl lg:text-lg 2xl:text-xl font-[Poppins]"><strong class="text-4xl font-semibold text-[#EE7C7E]">$${list.precio}</strong> pesos</p>
+                  </div>
+              </figure>
+            `;
+            details.innerHTML += price;
+          })
+        }
+    }
+
+    btnFront.addEventListener('click', () => {
+      vistaActual = 'frente';
+      container.innerHTML = `
+        <img src="/woman-front.png" id="imgBody" class="w-28 md:w-38 lg:w-44 2xl:w-54 transition-opacity duration-300 ease-in" />
+      `;
+      //imgBody.src = '/woman-front.png';
+      btnFront.classList.add('active');
+      btnBack.classList.remove('active');
+      btnFace.classList.remove('active');
+      details.innerHTML = "";
+      cargarOpciones(zonasFrente);
+      renderZonas();
+    });
+
+    btnBack.addEventListener('click', () => {
+      vistaActual = 'atras';
+      container.innerHTML = `
+        <img src="/woman-back.png" id="imgBody" class="w-28 md:w-38 lg:w-44 2xl:w-54 transition-opacity duration-300 ease-in" />
+      `;
+      //imgBody.src = '/woman-back.png';
+      btnBack.classList.add('active');
+      btnFront.classList.remove('active');
+      btnFace.classList.remove('active');
+      details.innerHTML = "";
+      cargarOpciones(zonasAtras);
+      renderZonas();
+    });
+
+    btnFace.addEventListener('click', () => {
+      vistaActual = 'cara';
+      container.innerHTML = `
+        <img src="/woman-face.png" id="imgBody" class="w-66 md:w-88 lg:w-74 2xl:w-68 transition-opacity duration-300 ease-in" />
+      `;
+      //imgBody.src = '/woman-face.png';
+      btnFace.classList.add('active');
+      btnFront.classList.remove('active');
+      btnBack.classList.remove('active');
+      details.innerHTML = "";
+      cargarOpciones(zonasCara);
+      renderZonas();
+    });
+
+    select.addEventListener('change', (e) => {
+      container.querySelectorAll('.zona').forEach(z => z.remove());
+      let lista = zonas[vistaActual];
+      lista = lista.filter(zone => zone.nombre == e.target.value);
+      iterateZonas(lista)
+      if(lista.length !== 0)
+      {
+        details.innerHTML = `
+          <figure class="flex items-center max-w-xs p-4 py-2 sm:py-4 md:p-6 lg:p-4 mb-2 bg-white border border-gray-300 rounded-sm shadow-xs">
+              <div class="ml-0 text-gray-500">
+                  <h3 class="text-lg sm:text-xl md:text-2xl lg:text-xl 2xl:text-2xl font-light text-gray-900">${lista[0].nombre}</h3>
+                  <p class="font-light text-md sm:text-lg md:text-xl lg:text-lg 2xl:text-xl font-[Poppins]"><strong class="text-4xl font-semibold text-[#EE7C7E]">$${lista[0].precio}</strong> pesos</p>
+              </div>
+          </figure>
+        `;
+        zonaExtra(e.target.value)
+      }
+      else
+      {
+        details.innerHTML = "";
+        renderZonas();
+      }
+    });
+
+    renderZonas();
+    cargarOpciones(zonasFrente);
+  </script>
+  
+<!-- <section id="pricesbyzone" data-header-color="transparent" data-header-logo="1" class="precios-zona bg-[#f9a9a8] h-screen w-screen relative flex flex-col items-center justify-center px-6 py-8 md:px-12 lg:px-14 xl:px-32 md:py-14 xl:py-24">
+  <div class="cuerpo">
+    <img src="img/woman-front.png" alt="Cuerpo" class="cuerpo-img" id="cuerpo-img">
+    <div class="zona" style="top:70%; left:45%;" data-zona="Media pierna" data-precio="650">
+      <span class="punto"></span>
+    </div>
+  </div>
+
+  <div class="info-zona">
+    <h2>Precio por Zona</h2>
+    <p>Explora los precios por área directamente sobre la imagen y elige tu tratamiento ideal.</p>
+    <div id="details-zona">
+      <h3>Selecciona una zona</h3>
+    </div>
+  </div>
+</section>
+
+<script>
+const zonas = document.querySelectorAll('.zona');
+const details = document.getElementById('details-zona');
+
+zonas.forEach(z => {
+  z.addEventListener('click', () => {
+    const nombre = z.dataset.zona;
+    const precio = z.dataset.precio;
+    details.innerHTML = `
+      <h3>${nombre}</h3>
+      <p><strong>$${precio}</strong> pesos</p>
+    `;
+  });
+});
+</script>-->
