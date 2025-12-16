@@ -1452,3 +1452,9 @@ input[type="number"]::-webkit-inner-spin-button {
     border-style: none;
   }
 }
+
+@media (min-width: 1536px) {
+  .form-iframe iframe {
+    min-height: 760px!important;
+  }
+}
