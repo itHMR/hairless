@@ -13,18 +13,8 @@ import "../styles/global.css";
             </h2>
             <div class="form-iframe" style="width: 100%; max-width: 800px; margin: 0 auto; padding: 0;">
                 <iframe
-                    id="hmr-form-iframe"
                     src="https://erp.hmrtijuana.com/iframe-form/eyJpdiI6ImhxODRORU1obDVjR3lLS2Y3Mkx6OUE9PSIsInZhbHVlIjoicUdYblJDZVorTjY2SjR5RjlRTVIvQT09IiwibWFjIjoiMWJmNjJiMzNiMjkzZTcxYjVjNDEwMjgzYjY1OWY1NjE3ZGQ4YmRiYmExN2RlYmFjOGQ0ZDI4M2EyMjk3ZDkzYSIsInRhZyI6IiJ9"
-                    frameborder="0"
-                    width="100%"
-                    height="100%"
-                    style="
-                    min-height: 800px;
-                    width: 100%;
-                    border: none;
-                    display: block;
-                    "
-                ></iframe>
+                    frameborder="0" width="100%" height="auto" id="hmr-form-iframe"></iframe>
             </div>
         </div> 
         <!-- Mapa -->
@@ -41,3 +31,15 @@ import "../styles/global.css";
         </div>
     </div>
 </section>
+
+<script>
+    window.addEventListener('message', function(event) {
+        if (event.data.iframeHeight) { 
+            console.log('Se esta enviando el mensaje');
+            const iframe = document.getElementById('hmr-form-iframe'); 
+            if(iframe){
+                iframe.style.height = event.data.iframeHeight + 'px'; 
+            }
+        }
+    });
+</script>
